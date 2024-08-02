@@ -1,28 +1,31 @@
-import webpack from 'webpack'
-import {buildWebpackConfig} from "./config/build/buildWebpackConfig";
-import {BuildEnv, BuildPaths} from "./config/build/types/config";
-import path from "path";
+import path from 'path';
+import webpack from 'webpack';
+import nodeExternals from 'webpack-node-externals';
 
-
-export default (env: BuildEnv) => {
-
-    const paths: BuildPaths = {
-        entry: path.resolve(__dirname, 'src', 'index.tsx'),
-        build: path.resolve(__dirname, 'build'),
-        src: path.resolve(__dirname, 'src'),
-    }
-
-    const mode = env.mode || 'development';
-    const PORT = env.port || 3000;
-
-    const isDev = mode === 'development';
-
-    const config: webpack.Configuration = buildWebpackConfig({
-        mode,
-        paths,
-        isDev,
-        port: PORT,
-    })
-
-    return config
+const config: webpack.Configuration = {
+  mode: 'development',
+  target: 'node',
+  entry: {
+    server: './src/index.ts',
+    //client: './src/client/index.ts',
+  },
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: '[name].js',
+  },
+  resolve: {
+    extensions: ['.ts', '.js'],
+  },
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
+    ],
+  },
+  externals: [nodeExternals()],
 };
+
+export default config;
