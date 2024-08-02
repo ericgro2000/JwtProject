@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "node index.ts",
     "build:prod": "webpack --env mode=production",
     "build:dev": "webpack --env mode=development"
   },
+    "type": "module",
   "keywords": [],
   "author": "",
   "license": "ISC",
