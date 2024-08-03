@@ -19,10 +19,11 @@ class AuthController {
 
   async getUsers(req: Request, res: Response): Promise<void> {
     try {
-        console.log('getUsers method called');
-        res.json( 'Server is working' );
+      console.log('getUsers method called');
+      res.json({ message: 'Server is working' });
     } catch (e) {
-        console.error('Error in getUsers method:', e);
+      console.error('Error in getUsers method:', e);
+      res.status(500).json({ error: 'Internal server error' });
     }
   }
 }
