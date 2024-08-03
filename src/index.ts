@@ -1,16 +1,20 @@
 import express from 'express';
+import mongoose from 'mongoose'
+import authRouter from './authRouter';
+const port = process.env.PORT || 3000;
 
 const app = express();
 
-app.get('/', (req, res) => {
-  console.log('Received request on root route');
-  res.send('Hello, World!');
-});
+app.use(express.json())
+app.use("/auth", authRouter)
 
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-  console.log('Listening for requests...');
-});
+const start = async () => {
+  try {
+      //await mongoose.connect(`mongodb+srv://mongoMe:0123456789@cluster0.acbnjaq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`)
+      app.listen(port, () => console.log(`server started on port ${port}`))
+  } catch (e) {
+      console.log(e)
+  }
+}
 
-console.log('Server setup complete');
+start()
