@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import Role from './models/Role';
 
 class AuthController {
   async registration(req: Request, res: Response): Promise<void> {
@@ -19,6 +20,11 @@ class AuthController {
 
   async getUsers(req: Request, res: Response): Promise<void> {
     try {
+      await Role.create([{ value: "USER" }, { value: "ADMIN" }]);
+      const userRole = new Role();
+      const adminRole = new Role({ value: "ADMIN" });
+      await userRole.save();
+      await adminRole.save();
       console.log('getUsers method called');
       res.json({ message: 'Server is working' });
     } catch (e) {
