@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/cors": "^2.8.17",
     "@types/node": "^22.0.2",
     "@types/webpack-node-externals": "^3.0.4",
@@ -25,6 +26,7 @@
     "webpack-node-externals": "^3.0.0"
   },
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "express": "^4.19.2",
     "mongodb": "^6.8.0",
