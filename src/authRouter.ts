@@ -2,6 +2,7 @@ import express, { Router } from "express";
 import controller from "./authController";
 const router: Router = express.Router();
 import { check } from "express-validator";
+import authMiddleware from "./middleware/authMiddleware";
 
 router.post(
   "/registration",
@@ -17,6 +18,6 @@ router.post(
 
 router.post("/login", controller.login);
 
-router.get("/users", controller.getUsers);
+router.get("/users", authMiddleware, controller.getUsers);
 
 export default router;

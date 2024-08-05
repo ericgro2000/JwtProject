@@ -69,13 +69,10 @@ class AuthController {
 
   async getUsers(req: Request, res: Response): Promise<Response> {
     try {
-      await Role.create([{ value: "USER" }, { value: "ADMIN" }]);
-      const userRole = new Role();
-      const adminRole = new Role({ value: "ADMIN" });
-      await userRole.save();
-      await adminRole.save();
+      const users = await User.find();
+      //res.json(users);
       console.log("getUsers method called");
-      return res.json({ message: "Server is working" });
+      return res.json({ users });
     } catch (e) {
       console.error("Error in getUsers method:", e);
       return res.status(500).json({ error: "Internal server error" });
