@@ -2,17 +2,17 @@ import { Request, Response } from "express";
 import Role from "./models/Role";
 import bcrypt from "bcrypt";
 import User from "./models/User";
+import { validationResult } from "express-validator";
 
 class AuthController {
   async registration(req: Request, res: Response): Promise<Response> {
     try {
-      //todo make this fn
-      // const errors = validationResult(req);
-      // if (!errors.isEmpty()) {
-      //   return res
-      //     .status(400)
-      //     .json({ message: "Ошибка при регистрации", errors });
-      // }
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res
+          .status(400)
+          .json({ message: "Ошибка при регистрации", errors });
+      }
       const { username, password } = req.body;
       const candidate = await User.findOne({ username });
       if (candidate) {
