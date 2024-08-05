@@ -3,6 +3,17 @@ import Role from "./models/Role";
 import bcrypt from "bcrypt";
 import User from "./models/User";
 import { validationResult } from "express-validator";
+import jwt from "jsonwebtoken";
+import { config } from "./config";
+import { ObjectId } from "mongoose";
+
+const generateAccessToken = (id: any, roles: string[]) => {
+  const payload = {
+    id,
+    roles,
+  };
+  return jwt.sign(payload, config.secret, { expiresIn: "24h" });
+};
 
 class AuthController {
   async registration(req: Request, res: Response): Promise<Response> {
@@ -37,8 +48,19 @@ class AuthController {
 
   async login(req: Request, res: Response): Promise<Response> {
     try {
-      // Handle login logic
-      return res.json({ message: "Login successful" });
+      const { username, password } = req.body;
+      const user = await User.findOne({ username });
+      if (!user) {
+        return res
+          .status(400)
+          .json({ message: `Пользователь ${username} не найден` });
+      }
+      const validPassword = bcrypt.compareSync(password, user.password);
+      if (!validPassword) {
+        return res.status(400).json({ message: `Введен неверный пароль` });
+      }
+      const token = generateAccessToken(user._id, user.roles);
+      return res.json({ token });
     } catch (e) {
       console.log(e);
       return res.status(400).json({ message: "Login error" });
