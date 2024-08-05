@@ -36,7 +36,7 @@ class AuthController {
       const user = new User({
         username,
         password: hashPassword,
-        roles: [userRole!.value],
+        roles: userRole ? [userRole.value] : ["USER"],
       });
       await user.save();
       return res.json({ message: "Пользователь успешно зарегистрирован" });
@@ -70,7 +70,6 @@ class AuthController {
   async getUsers(req: Request, res: Response): Promise<Response> {
     try {
       const users = await User.find();
-      //res.json(users);
       console.log("getUsers method called");
       return res.json({ users });
     } catch (e) {
