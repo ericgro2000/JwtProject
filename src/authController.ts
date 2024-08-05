@@ -7,7 +7,7 @@ import jwt from "jsonwebtoken";
 import { config } from "./config";
 import { ObjectId } from "mongoose";
 
-const generateAccessToken = (id: any, roles: string[]) => {
+const generateAccessToken = (id: string, roles: string[]) => {
   const payload = {
     id,
     roles,
