@@ -1,6 +1,7 @@
 import { Schema, model, Model, Document } from "mongoose";
 
 interface UserDocument extends Document {
+  _id: string;
   username: string;
   password: string;
   roles: string[];
